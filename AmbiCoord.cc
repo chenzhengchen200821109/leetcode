@@ -35,10 +35,10 @@ class Solution
     //private:
         bool isValidFloats(const string& str)
         {
-            string::size_type n;
-            if ((n = str.find('.')) == string::npos)
-                return false;
-            regex regex0("^0.[0-9]*[1-9]$", std::regex::extended);
+            //string::size_type n;
+            //if ((n = str.find('.')) == string::npos)
+            //    return false;
+            regex regex0("^0\\.[0-9]*[1-9]$", std::regex::extended);
             regex regex1("^[1-9][0-9]*.[0-9]*[1-9]$", std::regex::extended);
             return (regex_match(str, regex0) || regex_match(str, regex1));
         }
@@ -111,10 +111,6 @@ int main()
     for (size_t i = 0; i < v.size(); i++) {
         std::cout << v[i] << std::endl;
     }
-
-    string str0("012");
-    std::cout << s.isValidFloats(str0) << std::endl;
-    std::cout << s.isValidInteger(str0) << std::endl;
 
     return 0;
 }

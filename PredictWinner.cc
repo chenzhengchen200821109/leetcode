@@ -8,45 +8,24 @@ class Solution
     public:
         bool PredictWinner(const vector<int>& v)
         {
-            if (CanWin(v, 0, int(v.size() - 1), true, 0))
-                return true;
-            else
-                return false;
-
+            return CanWin(v, 0, 0, 1);
         }
 
-        bool CanWin(const vector<int>& a, int i, int j, bool who, int diff)
+        bool CanWin(const vector<int>& v, int sum1, int sum2, int player)
         {
-            if (i == j) {
-                if (who) {
-                    diff += a[i];
-                    return diff > 0;
-                } else {
-                    diff -= a[i];
-                    return diff > 0;
-                }
-            } else {
-                if (who) { // ONE
-                    if (CanWin(a, i + 1, j, false, diff + a[i])) {
-                        if (CanWin(a, i, j - 1, false, diff + a[j]))
-                            return false;
-                        else 
-                            return true;
-                    }
-                    else 
-                        return true;
-                } 
-                else { // TWO
-                    if (CanWin(a, i + 1, j, true, diff - a[i])) {
-                        if (CanWin(a, i, j - 1, true, diff - a[j]))
-                            return true;
-                        else
-                            return false;
-                    }
-                    else
-                        return false;
-                }
+            if (v.size() == 0)
+                return sum1 >= sum2;
+            if (v.size() == 1) {
+                if (player == 1) return sum1 + v[0] > sum2;
+                else if (player == 2) return sum2 + v[0] > sum1;
             }
+            vector<int> va = vector<int>(v.begin() + 1, v.end());
+            vector<int> vb = vector<int>(v.begin(), v.end() - 1);
+            if (player == 1)
+                return !CanWin(va, sum1 + v[0], sum2, 2) || !CanWin(vb, sum1 + v.back(), sum2, 2);
+            else if (player == 2)
+                return !CanWin(va, sum1, sum2 + v[0], 1) || !CanWin(vb, sum1, sum2 + v.back(), 1);
+            
         }
 };
 
@@ -55,9 +34,10 @@ int main()
     Solution s;
     vector<int> v;
 
-    v.push_back(2);
-    v.push_back(6);
     v.push_back(1);
+    v.push_back(5);
+    v.push_back(233);
+    v.push_back(7);
 
     std::cout << s.PredictWinner(v) << std::endl;
 
